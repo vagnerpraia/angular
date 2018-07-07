@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { BasesService } from '../../services/bases.service';
+
 @Component({
   selector: 'app-bases',
   templateUrl: './bases.component.html',
   styleUrls: ['./bases.component.css']
 })
 export class BasesComponent implements OnInit {
-  public posts = [];
+  public bases = [];
 
-  constructor() { }
+  constructor(private basesService: BasesService) { }
 
   ngOnInit() {
-    for (let i = 1; i < 10; i++) {
-      this.posts.push({ id: i, text: 'This is post with id: ' + i });
-    }
+    this.basesService.getBases()
+       .map(res => res['items'])
+       .subscribe((result: any) => this.bases = result)
   }
 }
